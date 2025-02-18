@@ -9,7 +9,6 @@ const Login = ({ navigation }) => {
     const [IDpass, setIDpass] = useState("");
     const [Dobpass, setDobpass] = useState("");
  
-    // add alertgit
     // Check if user is already logged in (auto-login)
     useEffect(() => {
         const checkLoginStatus = async () => {
@@ -24,6 +23,13 @@ const Login = ({ navigation }) => {
  
  
     const handlogin = async () => {
+
+            // Check if either IDpass or Dobpass is empty
+        if (!IDpass || !Dobpass) {
+            Alert.alert("error", "กรุณากรอกข้อมูลให้ครบถ้วน", [{ text: "OK" }]);
+            return;  // Stop further execution if either field is empty
+        }
+
         const response = await fetch("https://maingo-api-c1bde2c6610c.herokuapp.com/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

@@ -31,8 +31,8 @@ const Profile = ({ navigation }) => {
     // await AsyncStorage.removeItem("@accessToken");
     // navigation.navigate("P_Login")
     try {
-      await AsyncStorage.removeItem("@accesstoken");
-      // const token = await AsyncStorage.getItem("@accesstoken");
+      await AsyncStorage.removeItem("@accessToken");
+      // const token = await AsyncStorage.getItem("@accessToken");
       // if (!token) {
       //   console.log("Token removed successfully");
       // }
