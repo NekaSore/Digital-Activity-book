@@ -9,7 +9,7 @@ const Login = ({ navigation }) => {
     const [IDpass, setIDpass] = useState("");
     const [Dobpass, setDobpass] = useState("");
  
-    // add alert
+    // add alertgit
     // Check if user is already logged in (auto-login)
     useEffect(() => {
         const checkLoginStatus = async () => {
