@@ -19,5 +19,5 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
+//git push -u origin main
 //apk export cmd : eas build -p android --profile preview
