@@ -4,28 +4,37 @@
     "slug": "Digital_Activity_Book",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./stuff/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./stuff/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#71dea9"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./stuff/adaptive-icon.png",
+        "backgroundColor": "#71dea9"
+      },
+      "package": "com.sakuyasore.Digital_Activity_Book"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./stuff/favicon.png"
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "02f52fa4-24c0-4c9c-ad4b-28125c1d6d65"
+      }
+    }
   }
 }

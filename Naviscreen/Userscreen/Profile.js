@@ -1,17 +1,16 @@
-import { View, Text, Image, StyleSheet, } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState, } from 'react'
 import { Button } from "react-native-paper";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StatusBar } from 'expo-status-bar';
-
+import QRCode from 'react-native-qrcode-svg'; // npm i -S react-native-svg react-native-qrcode-svg
 
 const Profile = ({ navigation }) => {
-  // เอาข้อมูล User
   const [user, setuser] = useState({})
   const [loading, setloading] = useState(true)
   const fetchUser = async () => {
     const accessToken = await AsyncStorage.getItem("@accessToken")
-    const response = await fetch("https://maingo-api-14c0a3c619c5.herokuapp.com/users/profile", {
+    const response = await fetch("https://maingo-api-c1bde2c6610c.herokuapp.com/users/profile", {
       method: "GET",
       headers: { "Content-Type": "application/json", "Authorization": "Bearer " + accessToken },
     })
@@ -24,53 +23,130 @@ const Profile = ({ navigation }) => {
     setloading(false)
   }
   useEffect(() => {
-    fetchUser()
-  }, [loading])
+    fetchUser();
 
-  const GoBack = () => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault();
+    });
+    return unsubscribe;
+  }, [navigation, loading]);
+
+  const Logout = async () => {
+    await AsyncStorage.removeItem("@accessToken");
     navigation.navigate("P_Login")
   }
 
   return (
-    <View style={sty.con}>
-      <View style={{ alignSelf: "center", marginTop: 35 }} >
-        <Image source={{ uri: user.Avatar }} style={{ width: 250, height: 250, borderRadius: 10 }} />
-      </View>
-      <View style={{ marginHorizontal: 20, marginVertical: 15, borderRadius: 20, borderWidth: 1, padding: 10 }}>
-        <Text style={{ fontSize: 25, }} >ชื่อ : {user.Firstname}</Text>
-        <Text style={{ fontSize: 25, }} >สกุล : {user.Lastname}</Text>
-        <Text style={{ fontSize: 25, }} >สาขาวิชา : <Text style={{ fontSize: 24, }} >{user.Department}</Text></Text>
-        <Text style={{ fontSize: 25, }} >รหัสนักศึกษา : {user.Username}</Text>
-        <Text style={{ fontSize: 25, }} >ตราปั๊มทั้งหมด : {user.User_stamp}</Text>
-      </View>
-      <Image source={require("../../stuff/QRsample.png")} style={sty.QRpic} />
-      <Button icon="step-backward" mode="elevated" textColor="black" style={sty.BT_out} onPress={GoBack} >Back</Button>
-      <StatusBar style="auto" />
-    </View>
-  )
-}
+    <View style={{ flex: 1, backgroundColor: '#71dea9' }}>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#323235" />
+          <Text style={styles.loadingText}>กำลังโหลด รอสักครู่...</Text>
+        </View>
+      ) : (
+        <ScrollView refreshControl={<RefreshControl refreshing={loading} onRefresh={() => setloading(true)} />} >
+          <View style={styles.container}>
+            <View style={styles.avatarContainer}>
+              <Image
+                source={{ uri: user.Avatar }}
+                style={styles.avatar}
+              />
+            </View>
 
-const sty = StyleSheet.create({
-  con: {
-    width: "100%",
+            <View style={styles.profileDetailsContainer}>
+              <Text style={styles.profileText}>ชื่อ : {user.Fullname}</Text>
+              <Text style={styles.profileText}>สาขาวิชา : {user.Department}</Text>
+              <Text style={styles.profileText}>รหัสนักศึกษา : {user.Username}</Text>
+              <Text style={styles.profileText}>ตราปั๊มทั้งหมด : {user.Points}</Text>
+            </View>
+
+            <TouchableOpacity onPress={fetchUser} activeOpacity={0.7} style={styles.QRpic}>
+              <QRCode
+                value={user.Username}
+                size={200}
+                logo={require('./../../stuff/ytc.png')}
+                logoSize={30}
+              />
+            </TouchableOpacity>
+
+            <Button
+              icon="logout"
+              mode="contained"
+              textColor="white"
+              style={styles.logoutButton}
+              onPress={Logout}
+            >
+              ออกจากระบบ
+            </Button>
+
+            <StatusBar style="auto" />
+          </View>
+        </ScrollView>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
     flex: 1,
-    alignSelf: "center",
-    justifyContent: "center",
     backgroundColor: '#71dea9',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  avatarContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  avatar: {
+    width: 200,
+    height: 200,
+    borderRadius: 50,
+    marginBottom: 10,
+  },
+  profileDetailsContainer: {
+    width: '100%',
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 15,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  profileText: {
+    fontSize: 20,
+    color: '#333',
+    marginBottom: 10,
   },
   QRpic: {
-    resizeMode: 'contain', 
-    width: 200, 
-    height: 200, 
-    alignSelf: 'center', 
-    borderRadius: 10
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
-  BT_out: {
-    paddingVertical: 5, 
-    width: "90%", 
-    alignSelf: 'center', 
-    marginTop: 10,
-  }
+  logoutButton: {
+    width: '100%',
+    paddingVertical: 10,
+    marginVertical: 20,
+    backgroundColor: '#e57373',
+    borderRadius: 25,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#71dea9',
+  },
 });
 
-export default Profile
+export default Profile;
