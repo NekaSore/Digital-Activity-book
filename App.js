@@ -1,20 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native"; //npm install @react-navigation/native
+import { createNativeStackNavigator } from "@react-navigation/native-stack"; //npm install @react-navigation/native-stack
+const Stack = createNativeStackNavigator();
+
+import P_Start from "./StartScreen/Start"
+import P_Login from "./StartScreen/Login"
+import P_Navi from "./NaviScreen/Navi"
+import P_Detail from "./NaviScreen/Userscreen/NewDetail"
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="P_Start" component={P_Start} options={{ headerShown : false }} />
+        <Stack.Screen name="P_Login" component={P_Login} options={{ headerShown : false }} />
+        <Stack.Screen name="P_Navi" component={P_Navi} options={{ headerShown : false }} />
+        <Stack.Screen name="P_Detail" component={P_Detail} options={{ title : "Back", headerStyle: { backgroundColor: '#323235' }, headerTintColor: '#ffffff', }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
