@@ -3,7 +3,7 @@ import { TextInput, Button } from "react-native-paper"; // npm install react-nat
 import React, { useState, useEffect, useRef } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage"; // npm install @react-native-async-storage/async-storage
 import { StatusBar } from 'expo-status-bar';
- 
+import NetInfo from "@react-native-community/netinfo" // npm install @react-native-community/netinfo
  
 const Login = ({ navigation }) => {
     const [IDpass, setIDpass] = useState("");
@@ -26,8 +26,14 @@ const Login = ({ navigation }) => {
  
  
     const handlogin = async () => {
+        // Check Internet
+        const netInfo = await NetInfo.fetch();
+        if (!netInfo.isConnected) {
+            Alert.alert("error", "กรุณาเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง", [{ text: "OK" }]);
+            return;
+        }
 
-            // Check if either IDpass or Dobpass is empty
+        // Check if both IDpass or Dobpass is empty
         if (!IDpass || !Dobpass) {
             Alert.alert("error", "กรุณากรอกข้อมูลให้ครบถ้วน", [{ text: "OK" }]);
             return;  // Stop further execution if either field is empty
