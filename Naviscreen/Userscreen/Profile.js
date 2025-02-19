@@ -25,7 +25,6 @@ const Profile = ({ navigation }) => {
   useEffect(() => {
     fetchUser();
 
-<<<<<<< HEAD
   }, [navigation, loading]);
 
   const Logout = async () => {
@@ -44,17 +43,6 @@ const Profile = ({ navigation }) => {
     } catch (error) {
       console.error("Error clearing token:", error);
     }
-=======
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      e.preventDefault();
-    });
-    return unsubscribe;
-  }, [navigation, loading]);
-
-  const Logout = async () => {
-    await AsyncStorage.removeItem("@accessToken");
-    navigation.navigate("P_Login")
->>>>>>> e833543e0a3188ec463ce7100c71642cb72485ff
   }
 
   return (

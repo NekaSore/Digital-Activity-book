@@ -14,7 +14,10 @@ const Login = ({ navigation }) => {
         const checkLoginStatus = async () => {
             const accessToken = await AsyncStorage.getItem("@accessToken");
             if (accessToken) {
-                navigation.navigate("P_Navi");
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "P_Navi" }],
+                  });
             }
         };
  
@@ -41,7 +44,10 @@ const Login = ({ navigation }) => {
         const data = await response.json();
         if (data.status === "ok") {
             await AsyncStorage.setItem("@accessToken", data.accessToken);
-            navigation.navigate("P_Navi")
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "P_Navi" }],
+              });
         }
         else {
             Alert.alert(data.status, data.message, [
