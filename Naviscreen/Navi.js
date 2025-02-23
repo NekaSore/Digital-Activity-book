@@ -18,7 +18,7 @@ const Navi = () => {
       },
     }}>
         <Tab.Screen name="P_Profile" component={P_Profile} options={{ title : "Profile" , headerStyle: { backgroundColor: '#323235' }, headerTintColor: '#ffffff', tabBarIcon: ({ color, size }) => ( <Ionicons name="person" size={size} color={color} /> ),  }}/>
-        <Tab.Screen name="P_History" component={P_History} options={{ title : "Sticker" , headerStyle: { backgroundColor: '#323235' }, headerTintColor: '#ffffff', tabBarIcon: ({ color, size }) => ( <Ionicons name="book"   size={size} color={color} /> ),  }}/>
+        <Tab.Screen name="P_History" component={P_History} options={{ title : "History" , headerStyle: { backgroundColor: '#323235' }, headerTintColor: '#ffffff', tabBarIcon: ({ color, size }) => ( <Ionicons name="book"   size={size} color={color} /> ),  }}/>
         <Tab.Screen name="P_New"     component={P_New}     options={{ title : "Activity", headerStyle: { backgroundColor: '#323235' }, headerTintColor: '#ffffff', tabBarIcon: ({ color, size }) => ( <Ionicons name="list"   size={size} color={color} /> ),  }} />
         
     </Tab.Navigator>

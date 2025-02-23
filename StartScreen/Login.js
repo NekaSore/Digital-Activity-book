@@ -3,19 +3,21 @@ import { TextInput, Button } from "react-native-paper"; // npm install react-nat
 import React, { useState, useEffect, useRef } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage"; // npm install @react-native-async-storage/async-storage
 import { StatusBar } from 'expo-status-bar';
- 
+import NetInfo from "@react-native-community/netinfo" // npm install @react-native-community/netinfo
  
 const Login = ({ navigation }) => {
     const [IDpass, setIDpass] = useState("");
     const [Dobpass, setDobpass] = useState("");
- 
  
     // Check if user is already logged in (auto-login)
     useEffect(() => {
         const checkLoginStatus = async () => {
             const accessToken = await AsyncStorage.getItem("@accessToken");
             if (accessToken) {
-                navigation.navigate("P_Navi");
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "P_Navi" }],
+                  });
             }
         };
  
@@ -24,6 +26,19 @@ const Login = ({ navigation }) => {
  
  
     const handlogin = async () => {
+        // Check Internet
+        const netInfo = await NetInfo.fetch();
+        if (!netInfo.isConnected) {
+            Alert.alert("ไม่สามารถดำเนินการได้", "กรุณาเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง", [{ text: "ตกลง" }]);
+            return;
+        }
+
+        // Check if both IDpass or Dobpass is empty
+        if (!IDpass || !Dobpass) {
+            Alert.alert("ไม่สามารถดำเนินการได้", "กรุณากรอกข้อมูลให้ครบถ้วน", [{ text: "ตกลง" }]);
+            return;  // Stop further execution if either field is empty
+        }
+
         const response = await fetch("https://maingo-api-c1bde2c6610c.herokuapp.com/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -35,12 +50,13 @@ const Login = ({ navigation }) => {
         const data = await response.json();
         if (data.status === "ok") {
             await AsyncStorage.setItem("@accessToken", data.accessToken);
-            navigation.navigate("P_Navi")
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "P_Navi" }],
+              });
         }
         else {
-            Alert.alert(data.status, data.message, [
-                { text: "OK" },
-            ]);
+            Alert.alert("ไม่สามารถดำเนินการได้", data.message, [{ text: "ตกลง" }]);
         }
     };
    

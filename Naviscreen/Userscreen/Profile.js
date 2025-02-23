@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, ActivityIndicator, Alert } from 'react-native'
 import React, { useEffect, useState, } from 'react'
 import { Button } from "react-native-paper";
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -25,15 +25,27 @@ const Profile = ({ navigation }) => {
   useEffect(() => {
     fetchUser();
 
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      e.preventDefault();
-    });
-    return unsubscribe;
   }, [navigation, loading]);
 
   const Logout = async () => {
-    await AsyncStorage.removeItem("@accessToken");
-    navigation.navigate("P_Login")
+    // old logout
+    // await AsyncStorage.removeItem("@accessToken");
+    // navigation.navigate("P_Login")
+    try {
+      await AsyncStorage.removeItem("@accessToken");
+      // console remove token
+      // const token = await AsyncStorage.getItem("@accessToken");
+      // if (!token) {
+      //   console.log("Token removed successfully");
+      // }
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "P_Login" }],
+      });
+    } catch (error) {
+      console.error("Error clearing token:", error);
+      Alert.alert("บันทึกข้อมูลไม่สำเร็จ", "ระบบขัดข้อง กรุณาลองใหม่!", [{ text: "ตกลง" }]);
+    }
   }
 
   return (
