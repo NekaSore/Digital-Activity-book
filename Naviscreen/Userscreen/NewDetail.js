@@ -48,17 +48,47 @@ const NewDetail = ({ navigation, route }) => {
       })
       .then((response) => {
         if (response.data.success) {
-          Alert.alert("Success", response.data.message);
+          Alert.alert("บันทึกข้อมูลเรียบร้อย", response.data.message, [{ text: "ตกลง" }]);
+          checkin();
         }
       })
       .catch((error) => {
         if (error.response && error.response.status === 400) {
-          Alert.alert("Error", error.response.data.message);
+          Alert.alert("บันทึกข้อมูลไม่สำเร็จ", error.response.data.message, [{ text: "ตกลง" }]);
+          checkin();
         } else {
-          Alert.alert("Error", "Something went wrong!");
+          Alert.alert("บันทึกข้อมูลไม่สำเร็จ", "ระบบขัดข้อง กรุณาลองใหม่!", [{ text: "ตกลง" }]);
+          checkin();
         }
       });
   };
+
+  const [check, setCheck] = useState(true);
+  const checkin = () => {
+    axios
+    .post("https://serverjs-api-6faec46c5c5a.herokuapp.com/check-user", {
+      user_id: addUser.User_id,
+      event_id: route.params.id,
+    })
+    .then((response) => {
+      if (response.data.success) {
+        setCheck(true);
+      }
+      else {
+        setCheck(false);
+      }
+    })
+    .catch((errot) => {
+      console.error("Check-in error : ", error);
+      setCheck(true);
+    })
+  };
+  useEffect(() => {
+    if (addUser.User_id) {
+      checkin();
+      //console.log(check);
+    }
+  },[addUser]);
 
   return (
     <View style={styles.container}>
@@ -90,7 +120,8 @@ const NewDetail = ({ navigation, route }) => {
                 mode="contained"
                 textColor="white"
                 onPress={addUserIn}
-                style={styles.button}
+                style={[styles.button, { opacity: check ? 0 : 1 }]}
+                disabled={check === true}
               >
                 ลงชื่อเข้าร่วมกิจกรรม
               </Button>

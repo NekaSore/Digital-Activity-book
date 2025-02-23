@@ -1,4 +1,4 @@
-import { Text, View, FlatList, Pressable, StyleSheet, ActivityIndicator } from "react-native";
+import { Text, View, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
 import React, { useState, useEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
 
@@ -22,7 +22,7 @@ const New = ({ navigation }) => {
 
   const RenderMyItem = ({ item }) => (
     <View style={styles.con}>
-      <Pressable onPress={() => Detail(item.event_id)}>
+      <TouchableOpacity onPress={() => Detail(item.event_id)}>
         <View style={styles.nameContainer}>
           <Text style={styles.name}>{item.event_name}</Text>
         </View>
@@ -30,7 +30,7 @@ const New = ({ navigation }) => {
           <Text style={styles.date}>{item.event_date}</Text>
           <Text style={styles.stamp}>{item.event_point} ตราปั๊ม</Text>
         </View>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 

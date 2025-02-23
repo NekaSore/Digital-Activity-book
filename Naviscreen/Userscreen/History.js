@@ -1,5 +1,6 @@
 import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { Button } from "react-native-paper";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
 
@@ -33,7 +34,7 @@ const History = ({ navigation }) => {
   // Fetch user's history after the user is loaded
   useEffect(() => {
     if (user.Username) {
-      fetch(`https://serverjs-api-6faec46c5c5a.herokuapp.com/history2?users=${user.Username}`)
+      fetch(`https://serverjs-api-6faec46c5c5a.herokuapp.com/history-all?users=${user.Username}`)
         .then((res) => res.json())
         .then((result) => {
           //console.log(result);
@@ -50,20 +51,23 @@ const History = ({ navigation }) => {
   // Render history item
   const RenderMyItem = ({ item }) => (
     <TouchableOpacity onPress={() => Detail(item.event_id)}>
-      <View style={styles.itemContainer}>
+      <View style={item.check_status === 0 ? styles.itemContainerRed : styles.itemContainer}>
         <View style={styles.itemLeft}>
           <Text style={styles.itemText}>{item.event_date}</Text>
         </View>
         <View style={styles.itemMiddle}>
           <Text style={styles.itemText}>{item.event_name}</Text>
-          <Text style={styles.itemText}>สถานะ : {item.check_status === 1 ? "เข้าร่วมแล้ว" : (item.check_status === 0 || item.check_status === null ? "ยังไม่เข้าร่วม" : item.check_status)}</Text>
+          <Text style={styles.itemText}>
+            สถานะ :
+            <Text style={styles.itemTextB}>
+              {item.check_status === 1 ? " เข้าร่วมแล้ว" : (item.check_status === 0 || item.check_status === null ? " ยังไม่เข้าร่วม" : item.check_status)}
+            </Text>
+          </Text>
         </View>
-        {/* <View style={styles.itemRight}>
-        <Image source={{ uri: item.event_coverimage }} style={styles.itemImage} />
-      </View> */}
       </View>
     </TouchableOpacity>
   );
+
 
   return (
     <View style={styles.container}>
@@ -92,7 +96,18 @@ const History = ({ navigation }) => {
           </View>
 
           {item.length === 0 ? (
-            <Text style={styles.noHistoryText}>ไม่มีประวัติกิจกรรม</Text>
+            <View>
+              <Text style={styles.noHistoryText}>ไม่มีประวัติกิจกรรม </Text>
+              <Button
+                icon="refresh"
+                mode="text"
+                textColor="#333"
+                onPress={() => setLoading(true)}
+                style={styles.button}
+              >
+                กดที่นี่เพื่อรีเฟรช
+              </Button>
+            </View>
           ) : (
             <FlatList
               data={item}
@@ -171,6 +186,21 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 4,
   },
+  itemContainerRed: {
+    flexDirection: 'row',
+    width: '95%',
+    alignSelf: 'center',
+    backgroundColor: '#ff9696',
+    marginVertical: 8,
+    borderRadius: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+  },
   itemLeft: {
     flex: 0.5,
     justifyContent: 'center',
@@ -195,6 +225,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#333',
   },
+  itemTextB: {
+    fontSize: 18,
+    color: '#333',
+    fontWeight: 'bold',
+  },
   itemImage: {
     width: 100,
     height: 100,
@@ -203,10 +238,18 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   noHistoryText: {
-    fontSize: 18,
+    fontSize: 20,
     textAlign: 'center',
     color: '#333',
-    marginTop: 20,
+    marginVertical: 20,
+  },
+  button: {
+    marginVertical: 15,
+    paddingVertical: 10,
+    borderRadius: 20,
+    backgroundColor: "#fff",
+    width: '50%',
+    alignSelf: 'center',
   },
 });
 
