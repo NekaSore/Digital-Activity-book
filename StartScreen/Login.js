@@ -29,21 +29,13 @@ const Login = ({ navigation }) => {
         // Check Internet
         const netInfo = await NetInfo.fetch();
         if (!netInfo.isConnected) {
-<<<<<<< HEAD
             Alert.alert("ไม่สามารถดำเนินการได้", "กรุณาเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง", [{ text: "ตกลง" }]);
-=======
-            Alert.alert("error", "กรุณาเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง", [{ text: "OK" }]);
->>>>>>> d89d9da83cf94fe17252fc7d39a88bb70fad1a89
             return;
         }
 
         // Check if both IDpass or Dobpass is empty
         if (!IDpass || !Dobpass) {
-<<<<<<< HEAD
             Alert.alert("ไม่สามารถดำเนินการได้", "กรุณากรอกข้อมูลให้ครบถ้วน", [{ text: "ตกลง" }]);
-=======
-            Alert.alert("error", "กรุณากรอกข้อมูลให้ครบถ้วน", [{ text: "OK" }]);
->>>>>>> d89d9da83cf94fe17252fc7d39a88bb70fad1a89
             return;  // Stop further execution if either field is empty
         }
 
