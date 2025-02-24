@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import QRCode from 'react-native-qrcode-svg'; // npm i -S react-native-svg react-native-qrcode-svg
 
 const Profile = ({ navigation }) => {
+  // for user
   const [user, setuser] = useState({})
   const [loading, setloading] = useState(true)
   const fetchUser = async () => {
@@ -48,6 +49,18 @@ const Profile = ({ navigation }) => {
     }
   }
 
+  // for max value per term
+  const [item, setitem] = useState([]);
+  useEffect(() => {
+      fetch("https://serverjs-api-6faec46c5c5a.herokuapp.com/year")
+        .then((res) => res.json())
+        .then((result) => {
+          setitem(result);
+          setloading(false);
+          //console.log(item);
+        });
+    }, [loading]);
+
   return (
     <View style={{ flex: 1, backgroundColor: '#71dea9' }}>
       {loading ? (
@@ -69,7 +82,12 @@ const Profile = ({ navigation }) => {
               <Text style={styles.profileText}>ชื่อ : {user.Fullname}</Text>
               <Text style={styles.profileText}>สาขาวิชา : {user.Department}</Text>
               <Text style={styles.profileText}>รหัสนักศึกษา : {user.Username}</Text>
-              <Text style={styles.profileText}>ตราปั๊มทั้งหมด : {user.Points}</Text>
+              <Text style={styles.profileText}>ตราปั๊มทั้งหมด : {user.Points} / {item[0]?.activity_points}</Text>
+              <Text style={styles.profileText}>สถานะกิจกรรม : 
+                <Text style={[styles.profileYear, {color : user.Points >= (item[0]?.activity_points || 0) ? "#33CC00" : "#ff9696"}]}>
+                  {user.Points >= (item[0]?.activity_points || 0) ? " ผ่าน" : " ไม่ผ่าน"}
+                </Text>
+              </Text>
             </View>
 
             <TouchableOpacity onPress={fetchUser} activeOpacity={0.7} style={styles.QRpic}>
@@ -133,6 +151,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#333',
     marginBottom: 10,
+  },
+  profileYear: {
+    fontSize: 20,
+    marginBottom: 10,
+    fontWeight: 'bold',
   },
   QRpic: {
     justifyContent: "center",

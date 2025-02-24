@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 
 const History = ({ navigation }) => {
   const [item, setItem] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setloading] = useState(true);
   const [user, setUser] = useState({});
 
   // Fetch user profile
@@ -24,7 +24,7 @@ const History = ({ navigation }) => {
       navigation.navigate("LoginP");
     }
     setUser(data.user);
-    setLoading(false);
+    setloading(false);
   };
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const History = ({ navigation }) => {
         .then((result) => {
           //console.log(result);
           setItem(result);
-          setLoading(false);
+          setloading(false);
         });
     }
   }, [user]);
@@ -50,7 +50,7 @@ const History = ({ navigation }) => {
 
   // Render history item
   const RenderMyItem = ({ item }) => (
-    <TouchableOpacity onPress={() => Detail(item.event_id)}>
+    <TouchableOpacity activeOpacity={0.8} onPress={() => Detail(item.event_id)}>
       <View style={item.check_status === 0 ? styles.itemContainerRed : styles.itemContainer}>
         <View style={styles.itemLeft}>
           <Text style={styles.itemText}>{item.event_date}</Text>
@@ -102,7 +102,7 @@ const History = ({ navigation }) => {
                 icon="refresh"
                 mode="text"
                 textColor="#333"
-                onPress={() => setLoading(true)}
+                onPress={() => setloading(true)}
                 style={styles.button}
               >
                 กดที่นี่เพื่อรีเฟรช
@@ -114,7 +114,7 @@ const History = ({ navigation }) => {
               renderItem={RenderMyItem}
               keyExtractor={(item) => item.event_id.toString()}
               refreshing={loading}
-              onRefresh={() => setLoading(true)}
+              onRefresh={() => setloading(true)}
               style={{ marginBottom: 130 }}
             />
           )}
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '95%',
     alignSelf: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#c8ffc8', //#fff
     marginVertical: 8,
     borderRadius: 10,
     paddingVertical: 20,

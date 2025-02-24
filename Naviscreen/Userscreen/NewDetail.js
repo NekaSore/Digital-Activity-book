@@ -7,7 +7,7 @@ import axios from "axios"; // npm install axios
 
 const NewDetail = ({ navigation, route }) => {
   const [item, setItem] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setloading] = useState(true);
   //console.log(route.params.id);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const NewDetail = ({ navigation, route }) => {
       .then((result) => {
         //console.log(result);
         setItem(result);
-        setLoading(false);
+        setloading(false);
       });
   }, []);
 
@@ -32,14 +32,14 @@ const NewDetail = ({ navigation, route }) => {
       navigation.navigate("LoginP");
     }
     setAddUser(data.user);
-    setLoading(false);
+    setloading(false);
     //console.log(addUser.User_id);
   };
-
   useEffect(() => {
     fetchUser();
   }, [loading]);
 
+  // add user in event
   const addUserIn = () => {
     axios
       .post("https://serverjs-api-6faec46c5c5a.herokuapp.com/add-user", {
@@ -63,6 +63,7 @@ const NewDetail = ({ navigation, route }) => {
       });
   };
 
+  // check user join yet
   const [check, setCheck] = useState(true);
   const checkin = () => {
     axios
@@ -100,7 +101,7 @@ const NewDetail = ({ navigation, route }) => {
         </View>
 
       ) : (
-        <ScrollView style={styles.contentContainer} refreshControl={<RefreshControl refreshing={loading} onRefresh={() => setLoading(true)} />} >
+        <ScrollView style={styles.contentContainer} refreshControl={<RefreshControl refreshing={loading} onRefresh={() => setloading(true)} />} >
           <View>
             <Text style={styles.title}>{item.event_name}</Text>
             {/* <Image

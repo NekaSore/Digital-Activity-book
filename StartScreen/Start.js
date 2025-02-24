@@ -30,7 +30,7 @@ const Start = ({ navigation }) => {
         </View>
         <View style={{ flex: 0.05 }}>
           <Link href="https://steamcommunity.com/id/NekaSore" style={styles.Bottomtext}>
-            Ver 1.5.3
+            Ver 1.9.0
           </Link>
         </View>
         <StatusBar style="auto" />

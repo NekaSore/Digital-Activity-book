@@ -22,7 +22,7 @@ const New = ({ navigation }) => {
 
   const RenderMyItem = ({ item }) => (
     <View style={styles.con}>
-      <TouchableOpacity onPress={() => Detail(item.event_id)}>
+      <TouchableOpacity  onPress={() => Detail(item.event_id)}>
         <View style={styles.nameContainer}>
           <Text style={styles.name}>{item.event_name}</Text>
         </View>
