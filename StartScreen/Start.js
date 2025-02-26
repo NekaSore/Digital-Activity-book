@@ -29,7 +29,7 @@ const Start = ({ navigation }) => {
           </View>
         </View>
         <View style={{ flex: 0.05 }}>
-          <Link href="https://steamcommunity.com/id/NekaSore" style={styles.Bottomtext}>
+          <Link href="https://steamcommunity.com/id/NekaSore" style={styles.Bottomtext}> // if i forgot something contact me on this <3
             Ver 1.9.0
           </Link>
         </View>
