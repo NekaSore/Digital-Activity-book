@@ -1,9 +1,4 @@
 Digital-Activity-book
 
-using API GO for Login.
-
-using server.js API for Activity.
-
-Every API in "API.rar"
-
-GL
+using API GO for Login & server.js API for Activity.
+Every API file in "API.rar"
