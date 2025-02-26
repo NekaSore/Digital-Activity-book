@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";  // Not using it old
 
 export const sty = StyleSheet.create({
   container: {
