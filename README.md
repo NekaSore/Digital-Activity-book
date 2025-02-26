@@ -1,4 +1,4 @@
-Digital-Activity-book
+Digital-Activity-book // APP Part
 
 using API GO for Login & server.js API for Activity.
 
