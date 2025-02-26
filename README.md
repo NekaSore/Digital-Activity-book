@@ -9,4 +9,4 @@ Every API file in "API.rar"
 "Note.rar" Just Note for using during rean. Good 2 Have 4u
 
 
-***Note I'm using heroku for hosting so if u want to test using local is fine but when export to APK using like(host)
+***Note I'm using heroku for hosting so if u want to test using local is fine but when export to APK using link(host)
