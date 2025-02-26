@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native"; //npm install @react-navigation/native
 import { createNativeStackNavigator } from "@react-navigation/native-stack"; //npm install @react-navigation/native-stack
 const Stack = createNativeStackNavigator();
-
+// P stand for Page like E1-M1
 import P_Start from "./StartScreen/Start"
 import P_Login from "./StartScreen/Login"
 import P_Navi from "./Naviscreen/Navi"
