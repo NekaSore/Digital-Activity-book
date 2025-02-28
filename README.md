@@ -1,4 +1,4 @@
-Digital-Activity-book // APP Part, Website Part : https://github.com/tawantink (go ask her about it)
+Digital-Activity-book // APP Part, Website Part : https://github.com/tawantink/digitalActivityBook (go ask her about it)
 
 using API GO for Login & server.js API for Activity.
 
